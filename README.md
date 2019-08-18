@@ -1,2 +1,0 @@
-# ScreenColorCapture
-一个简单的用java编写的屏幕取色器
