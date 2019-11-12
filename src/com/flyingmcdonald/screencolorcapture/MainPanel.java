@@ -1,16 +1,16 @@
 package com.flyingmcdonald.screencolorcapture;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,41 +18,60 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
-public class MainPanel extends JFrame implements DocumentListener {
 
-	ColorInfoBean colorInfo = new ColorInfoBean();
+public class MainPanel extends JFrame {
 
-	private final int WIDTH = 600;
-	private final int HEIGHT = 330;
+	private boolean hexFlag = true;
+	private boolean rgbFlag = true;
+	private boolean hsbFlag = true;
+	private boolean isPressed = true;
+	private boolean mouseDragged = false;
+	private boolean mouseClicked = false;
+	private final int TEXT_LANGTH = 4;
+	private float sliderCoordinate;
+	
+	private HSBInfo hsbInfo;
+	private ColorInfoBean colorInfo = new ColorInfoBean();
+	private HsvPalette hsvPalette;
+	private HsvPalette_2 hsvPalette_2;
+	private AlphSlider alphSlider;
+	private ShowColorLabel showColorLabel;
+	private final int WIDTH = 650;
+	private final int HEIGHT = 320;
 	private String JTitle = "Color Picker";
-	private String patternStr = "^[0-9]*$";
+	
 	private boolean isVisible = true;
 	private boolean isResize = false;
 	private JTextField showRedText;
 	private JTextField showGreenText;
 	private JTextField showBlueText;
 	private JTextField showHexText;
+	private JTextField showHueText;
+	private JTextField showSaturationText;
+	private JTextField showValueText;
+	private JTextField showAlphText;
 	private JLabel hexLabel;
-	private JLabel hexPromptLabel;
 	private JLabel redLabel;
-	private JLabel redPromptLabel;
 	private JLabel greenLabel;
-	private JLabel greenPromptLabel;
 	private JLabel blueLabel;
-	private JLabel bluePromptLabel;
-	private JPanel hexPanel;
+	private JLabel hueLabel;
+	private JLabel saturationLabel;
+	private JLabel valueLabel;
+	
 	private JPanel redPanel;
 	private JPanel greenPanel;
 	private JPanel bluePanel;
+	private JPanel huePanel;
+	private JPanel saturationPanel;
+	private JPanel valuePanel;
 	private JPanel showInfoPanel;
-
-	private JLabel colorLabel;
-
+	private JPanel showRGBPanel;
+	private JPanel showHSVPanel;
+	private JPanel showAlphaPanel;
+	private JPanel showHexAndAlphaPanel;
+	private JPanel showHexPanel;
 	private JPanel showColorPanel;
-	private JTextField showColorText;
 	private JPanel mainPanel;
 	private JButton exitBtn;
 	private JButton colorPickBtn;
@@ -67,6 +86,35 @@ public class MainPanel extends JFrame implements DocumentListener {
 	private Container contentPane;
 
 	private ColorPickerFrame colorPickerFrame;
+	private JLabel sliderLabel;
+
+	
+	
+	
+
+	public float getSliderCoordinate() {
+		return sliderCoordinate;
+	}
+
+	public void setSliderCoordinate(float sliderCoordinate) {
+		this.sliderCoordinate = sliderCoordinate;
+	}
+
+	public boolean isMouseDragged() {
+		return mouseDragged;
+	}
+
+	public void setMouseDragged(boolean mouseDragged) {
+		this.mouseDragged = mouseDragged;
+	}
+
+	public boolean isMouseClicked() {
+		return mouseClicked;
+	}
+
+	public void setMouseClicked(boolean mouseClicked) {
+		this.mouseClicked = mouseClicked;
+	}
 
 	public ColorPickerFrame getColorPickerFrame() {
 		return colorPickerFrame;
@@ -107,17 +155,87 @@ public class MainPanel extends JFrame implements DocumentListener {
 	public void setShowHexText(JTextField showHexText) {
 		this.showHexText = showHexText;
 	}
-
-	public JTextField getShowColorText() {
-		return showColorText;
+	
+	public JTextField getShowHueText() {
+		return showHueText;
 	}
 
-	public void setShowColorText(JTextField showColorText) {
-		this.showColorText = showColorText;
+	public void setShowHueText(JTextField showHueText) {
+		this.showHueText = showHueText;
 	}
+
+	public JTextField getShowSaturationText() {
+		return showSaturationText;
+	}
+
+	public void setShowSaturationText(JTextField showSaturationText) {
+		this.showSaturationText = showSaturationText;
+	}
+
+	public JTextField getShowValueText() {
+		return showValueText;
+	}
+
+	public void setShowValueText(JTextField showValueText) {
+		this.showValueText = showValueText;
+	}
+
+	public boolean isRgbFlag() {
+		return rgbFlag;
+	}
+
+	public void setRgbFlag(boolean flag) {
+		this.rgbFlag = flag;
+	}
+
+	public boolean isHexFlag() {
+		return hexFlag;
+	}
+
+	public void setHexFlag(boolean hexFlag) {
+		this.hexFlag = hexFlag;
+	}
+
+	public boolean isHsbFlag() {
+		return hsbFlag;
+	}
+
+	public void setHsbFlag(boolean hsbFlag) {
+		this.hsbFlag = hsbFlag;
+	}
+	
+	
+
+	public ShowColorLabel getShowColorLabel() {
+		return showColorLabel;
+	}
+
+	public void setShowColorLabel(ShowColorLabel showColorLabel) {
+		this.showColorLabel = showColorLabel;
+	}
+
+	public boolean isPressed() {
+		return isPressed;
+	}
+
+	public void setPressed(boolean isPressed) {
+		this.isPressed = isPressed;
+	}
+	
+	
+
+	public JTextField getShowAlphText() {
+		return showAlphText;
+	}
+
+	public void setShowAlphText(JTextField showAlphText) {
+		this.showAlphText = showAlphText;
+	}
+
+
 
 	/**
-	 * 
+	 * @author FlyingMcDonald
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -145,116 +263,226 @@ public class MainPanel extends JFrame implements DocumentListener {
 	}
 
 	public void showInfoPanel() {
-		showInfoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 8));
-		showInfoPanel.setPreferredSize(new Dimension(240, 200));
+		showInfoPanel = new JPanel(new BorderLayout());
+		showInfoPanel.setPreferredSize(new Dimension(385, 150));
+		showInfoPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+		
+		showRGBPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		showRGBPanel.setPreferredSize(new Dimension(170, 80));
 
-		redPromptLabel = new JLabel();
-		redPromptLabel.setPreferredSize(new Dimension(110, 20));
+		
+		showHSVPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		showHSVPanel.setPreferredSize(new Dimension(202, 80));
+		
+		showHexAndAlphaPanel = new JPanel(new BorderLayout());
+		showHexAndAlphaPanel.setPreferredSize(new Dimension(285, 90));
+		
+		showAlphaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		showAlphaPanel.setPreferredSize(new Dimension(285, 35));
+		
+		showHexPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		showHexPanel.setPreferredSize(new Dimension(285, 55));
+		
+		sliderLabel = new JLabel("Opacity:    ");
+		alphSlider = new AlphSlider();
+		alphSlider.setPreferredSize(new Dimension(178, 14));
+		alphSlider.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int sliderMidOfCircled = getSliderMidOfCirCled(e.getX());
+				if(sliderMidOfCircled >=0 && sliderMidOfCircled <=160) {
+					setAlphTextByMouseDragged(sliderMidOfCircled);
+					alphSlider.setSliderMidOfCircled(sliderMidOfCircled);
+				}
+				alphSlider.repaint();
+			}
+		});
+		alphSlider.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int sliderMidOfCircled = alphSlider.getSliderMidOfCircled();
+				String[] alphText = {getShowAlphText().getText()};
+				String[] alphText_2 = Utils.checkContent(alphText);
+				if(e.getX() < sliderMidOfCircled) {
+					setSliderCoordinate(setAlphTextByMouseClicked(sliderMidOfCircled, alphText_2[0])); 
+					setSliderMidOfCircled(getSliderCoordinate());
+				}else if(e.getX() > sliderMidOfCircled){
+					setMouseClicked(true);
+					setSliderCoordinate(setAlphTextByMouseClicked(sliderMidOfCircled, alphText_2[0])); 
+					setSliderMidOfCircled(getSliderCoordinate());
+					setMouseClicked(false);
+				}
+				alphSlider.repaint();
+			}
+		});
+	
+		hueLabel = new JLabel("Hue:        ");
+		saturationLabel = new JLabel("Saturation: ");
+		valueLabel = new JLabel("Value:      ");
 
-		greenPromptLabel = new JLabel();
-		greenPromptLabel.setPreferredSize(new Dimension(110, 20));
-
-		bluePromptLabel = new JLabel();
-		bluePromptLabel.setPreferredSize(new Dimension(110, 20));
-
-		hexPromptLabel = new JLabel();
-		hexPromptLabel.setPreferredSize(new Dimension(110, 20));
-
-		redLabel = new JLabel("Red");
-		greenLabel = new JLabel("Green");
-		blueLabel = new JLabel("Blue");
-		hexLabel = new JLabel("Hex");
+		redLabel = new JLabel("Red:");
+		greenLabel = new JLabel("Green:");
+		blueLabel = new JLabel("Blue:");
+		hexLabel = new JLabel("Hex: ");
+		
+		setFonts(sliderLabel);
+		setFonts(hueLabel);
+		setFonts(saturationLabel);
+		setFonts(valueLabel);
 		setFonts(redLabel);
 		setFonts(greenLabel);
 		setFonts(blueLabel);
 		setFonts(hexLabel);
+		
+		showHueText = new JTextField("0", TEXT_LANGTH);
+		showHueText.getDocument().addDocumentListener(new HSBListener(this));
+		showHueText.addKeyListener(new HSBListener(this));
+		
+		
+		showSaturationText = new JTextField("0", TEXT_LANGTH);
+		showSaturationText.getDocument().addDocumentListener(new HSBListener(this));
+		showSaturationText.addKeyListener(new HSBListener(this));
+		
+		showValueText = new JTextField("100", TEXT_LANGTH);
+		showValueText.getDocument().addDocumentListener(new HSBListener(this));
+		showValueText.addKeyListener(new HSBListener(this));
 
-		showRedText = new JTextField("255", 8);
-		showRedText.getDocument().addDocumentListener(this);
+		showRedText = new JTextField("255", TEXT_LANGTH);
+		showRedText.getDocument().addDocumentListener(new RGBAListener(this));
+		showRedText.addKeyListener(new RGBAListener(this));
 
-		showGreenText = new JTextField("255", 8);
-		showGreenText.getDocument().addDocumentListener(this);
+		showGreenText = new JTextField("255", TEXT_LANGTH);
+		showGreenText.getDocument().addDocumentListener(new RGBAListener(this));
+		showGreenText.addKeyListener(new RGBAListener(this));
 
-		showBlueText = new JTextField("255", 8);
-		showBlueText.getDocument().addDocumentListener(this);
+		showBlueText = new JTextField("255", TEXT_LANGTH);
+		showBlueText.getDocument().addDocumentListener(new RGBAListener(this));
+		showBlueText.addKeyListener(new RGBAListener(this));
 
-		showHexText = new JTextField("#FFFFFF", 8);
-		showHexText.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				if (e.getDocument().getLength() != 0) {
-					setColorByHex();
-				}
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				setColorByHex();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				setColorByHex();
-			}
-		});
-
-		setFonts(showRedText);
-		setFonts(showGreenText);
-		setFonts(showBlueText);
-		setFonts(showHexText);
-
+		showHexText = new JTextField("#FFFFFFFF", 11);
+		showHexText.getDocument().addDocumentListener(new HexListener(this));
+		
+		showAlphText = new JTextField("255", TEXT_LANGTH);
+		showAlphText.getDocument().addDocumentListener(new RGBAListener(this, alphSlider));
+		showAlphText.addKeyListener(new RGBAListener(this, alphSlider));
+		
+		huePanel = new JPanel();
+		saturationPanel = new JPanel();
+		valuePanel = new JPanel();
+		
 		redPanel = new JPanel();
 		greenPanel = new JPanel();
 		bluePanel = new JPanel();
-		hexPanel = new JPanel();
-
-		hexPanel.add(hexLabel);
-		hexPanel.add(showHexText);
-		hexPanel.add(hexPromptLabel);
+		
+		
+		huePanel.add(hueLabel);
+		huePanel.add(showHueText);
+		
+		saturationPanel.add(saturationLabel);
+		saturationPanel.add(showSaturationText);
+		
+		valuePanel.add(valueLabel);
+		valuePanel.add(showValueText);
+		
+		showHexPanel.add(hexLabel);
+		showHexPanel.add(showHexText);
+		
+		showAlphaPanel.add(sliderLabel);
+		showAlphaPanel.add(alphSlider);
+		showAlphaPanel.add(showAlphText);
 
 		redPanel.add(redLabel);
 		redPanel.add(showRedText);
-		redPanel.add(redPromptLabel);
 
 		greenPanel.add(greenLabel);
 		greenPanel.add(showGreenText);
-		greenPanel.add(greenPromptLabel);
 
 		bluePanel.add(blueLabel);
 		bluePanel.add(showBlueText);
-		bluePanel.add(bluePromptLabel);
-
-		showInfoPanel.add(hexPanel);
-		showInfoPanel.add(redPanel);
-		showInfoPanel.add(greenPanel);
-		showInfoPanel.add(bluePanel);
-
-		//showInfoPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		showHSVPanel.add(huePanel);
+		showHSVPanel.add(saturationPanel);
+		showHSVPanel.add(valuePanel);
+		
+		
+		showRGBPanel.add(redPanel);
+		showRGBPanel.add(greenPanel);
+		showRGBPanel.add(bluePanel);
+		
+		showHexAndAlphaPanel.add(showHexPanel, BorderLayout.SOUTH);
+		showHexAndAlphaPanel.add(showAlphaPanel, BorderLayout.NORTH);
+		
+		showInfoPanel.add(showHSVPanel, BorderLayout.WEST);
+		showInfoPanel.add(showRGBPanel, BorderLayout.EAST);
+		showInfoPanel.add(showHexAndAlphaPanel, BorderLayout.SOUTH);
 
 	}
 
 	private void showColorPanel() {
-		showColorPanel = new JPanel();
-		showColorPanel.setPreferredSize(new Dimension(200, 100));
-		colorLabel = new JLabel();
-		colorLabel.setText("这块以后是个调色板");
-		setFonts(colorLabel);
-		showColorPanel.add(colorLabel);
-		showColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		showColorPanel = new JPanel(new FlowLayout(0, 5, 0));
+		showColorPanel.setPreferredSize(new Dimension(232, 220));
+		
+		hsvPalette = new HsvPalette();
+		Cursor cursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
+		Cursor cursorReset = new Cursor(Cursor.DEFAULT_CURSOR);
+		hsvPalette.setPreferredSize(new Dimension(202, 202));
+		
+		hsvPalette.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				hsvPalette.setCursor(cursor);
+				getColorInfo(e.getX(), e.getY());
+				colorToHSB(e.getX(), e.getY());
+			}
+		});
+		hsvPalette.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(isPressed) {
+					hsvPalette.setCursor(cursor);
+					getColorInfo(e.getX(), e.getY());
+					colorToHSB(e.getX(), e.getY());
+				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				hsvPalette.setCursor(cursorReset);
+			}
+		});
+		
+		
+		hsvPalette_2 = new HsvPalette_2();
+		hsvPalette_2.setPreferredSize(new Dimension(14, 216));
+		
+		hsvPalette_2.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				getMidOfCircled(e.getY());
+				changeHSVPaletteColor(hsvPalette_2.getMidOfCircled());
+				colorToHSB(hsvPalette.getVerticalX(), hsvPalette.getHorizontalY());
+			}
+		});
+		hsvPalette_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				getMidOfCircled(e.getY());
+				changeHSVPaletteColor(hsvPalette_2.getMidOfCircled());
+				colorToHSB(hsvPalette.getVerticalX(), hsvPalette.getHorizontalY());
+			}
+		});
+		
+		
+		showColorPanel.add(hsvPalette_2);
+		showColorPanel.add(hsvPalette);
 	}
 
 	private void showColorPickPanel() {
 		colorPickPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
-		colorPickPanel.setPreferredSize(new Dimension(100, 50));
-		//colorPickPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-
-		showColorText = new JTextField();
-		showColorText.setPreferredSize(new Dimension(100, 30));
-		showColorText.setEditable(false);
-		showColorText.setBackground(colorInfo.getPickedColor());
-
-		
+		colorPickPanel.setPreferredSize(new Dimension(200, 50));
+		showColorLabel = new ShowColorLabel();
+		showColorLabel.setPreferredSize(new Dimension(155, 33));
+		showColorLabel.setBackground(colorInfo.getPickedColor());
 		exitBtn = new JButton("EXIT");
 		exitBtn.addActionListener(new ActionListener() {
 
@@ -266,7 +494,6 @@ public class MainPanel extends JFrame implements DocumentListener {
 		
 		colorPickBtn = new JButton("Color Pick");
 		colorPickBtn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				openColorPickerFrame();
@@ -276,11 +503,10 @@ public class MainPanel extends JFrame implements DocumentListener {
 		emptyPanel_5 = new JPanel();
 		emptyPanel_5.setPreferredSize(new Dimension(150, 30));
 
-		colorPickPanel.add(showColorText);
+		colorPickPanel.add(showColorLabel);
 		colorPickPanel.add(colorPickBtn);
 		colorPickPanel.add(emptyPanel_5);
 		colorPickPanel.add(exitBtn);
-
 	}
 
 	private void openColorPickerFrame() {	//打开子窗口
@@ -291,159 +517,168 @@ public class MainPanel extends JFrame implements DocumentListener {
 
 	private void emptyPanel() {//用于布局，占用一些空白空间
 		
+		//东
+		emptyPanel_4 = new JPanel();
+		emptyPanel_4.setPreferredSize(new Dimension(10, 100));
+		contentPane.add(emptyPanel_4, BorderLayout.EAST);
+		
 		//南
 		emptyPanel_1 = new JPanel();
-		emptyPanel_1.setPreferredSize(new Dimension(100, 30));
-		//emptyPanel_1.setBorder(BorderFactory.createLineBorder(Color.yellow));
+		emptyPanel_1.setPreferredSize(new Dimension(100, 10));
 		contentPane.add(emptyPanel_1, BorderLayout.SOUTH);
 
 		
 		//北
 		emptyPanel_2 = new JPanel();
-		emptyPanel_2.setPreferredSize(new Dimension(100, 50));
-		//emptyPanel_2.setBorder(BorderFactory.createLineBorder(Color.yellow));
+		emptyPanel_2.setPreferredSize(new Dimension(100, 10));
 		contentPane.add(emptyPanel_2, BorderLayout.NORTH);
 		
 		//西
 		emptyPanel_3 = new JPanel();
-		emptyPanel_3.setPreferredSize(new Dimension(20, 100));
-		//emptyPanel_3.setBorder(BorderFactory.createLineBorder(Color.PINK));
+		emptyPanel_3.setPreferredSize(new Dimension(10, 100));
 		contentPane.add(emptyPanel_3, BorderLayout.WEST);
-		
-		//东
-		emptyPanel_4 = new JPanel();
-		emptyPanel_4.setPreferredSize(new Dimension(20, 100));
-		//emptyPanel_4.setBorder(BorderFactory.createLineBorder(Color.PINK));
-		contentPane.add(emptyPanel_4, BorderLayout.EAST);
 	}
 
 	private void setFonts(JLabel textField) {//字体设置
-		textField.setFont(new Font("黑体", Font.BOLD, 12));
+		textField.setFont(new Font("Hack", Font.PLAIN, 16));
 	}
-
-	private void setFonts(JTextField JText) {
-		JText.setFont(new Font("Hack", Font.PLAIN, 14));
-	}
-
 	
+	/**
+	 * 改变hsvPalette中的Hue值
+	 * 
+	 * @param y
+	 */
+	private void changeHSVPaletteColor(int y) {
+		if(y > 201 || y < 0) {
+			y = y > 201 ? 201 : 0;
+		}
+		float coordinateY = (float) y;
+		hsvPalette.setHue(coordinateY/201f);
+		hsvPalette.repaint();
+	}
 	
-	@Override
-	public void insertUpdate(DocumentEvent e) {
-		setColorByRGB();
+	/**
+	 * 将hsvPalette两条线的交叉点的坐标所在HSB值转换成RGB值
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void colorToHSB(int x, int y) {
+		int h = (int) (hsvPalette.getHue() * 100 + 0.5f);
+		int[] coordinates = checkCoordinates(x, y);
+		hsvPalette.setCoordinateX(coordinates[0]);
+		hsvPalette.setCoordinateY(coordinates[1]);
+		int s = (int) ((float) (1 - hsvPalette.getCoordinateY() / 201f) * 100 + 0.5f);
+		int v = (int) ((float) hsvPalette.getCoordinateX() / 201f * 100 + 0.5f);
+		int[] hsb = {h, s, v};
+		hsbInfo = new HSBInfo(this);
+		hsbInfo.setHSBText(hsb,  hsbInfo.HSBTextObj());
 	}
-
-	@Override
-	public void removeUpdate(DocumentEvent e) {
-		if (e.getDocument().getLength() != 0) {
-			setColorByRGB();
+	
+	/**
+	 * 获取hsvPalette中横线的Y坐标，竖线的X坐标
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void getColorInfo(int x, int y) {
+		int[] coordinates = checkCoordinates(x, y);
+		hsvPalette.setHorizontalY(coordinates[1]);
+		hsvPalette.setVerticalX(coordinates[0]);
+		hsvPalette.repaint();
+	}
+	
+	/**
+	 * 检测光标是否超出面板范围
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private int[] checkCoordinates(int x, int y) {
+		int[] coordinates = new int[2];
+		if(x > 201 || x < 0) {
+			x = x > 201 ? 201 : 0; 
 		}
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		setColorByRGB();
-	}
-
-	private void setColorByRGB() {	//根据RGB三个文本框的值显示showColorText的颜色
-		Color textColor = new Color(255, 255, 255);
-		String redText = getShowRedText().getText();
-
-		String greenText = getShowGreenText().getText();
-
-		String blueText = getShowBlueText().getText();
-
-		String hexText = getShowHexText().getText();
-		
-		//判断非法字符
-		if (!checkChar(redText, patternStr) && !checkChar(greenText, patternStr)
-				&& !checkChar(blueText, patternStr)) {
-			int Red = Utils.toInt(redText);
-			int Green = Utils.toInt(greenText);
-			int Blue = Utils.toInt(blueText);
-
-			if ((Red <= 255) && (Red >= 0)) {
-				setInfo(redPromptLabel, "");
-			} else {
-				setInfo(redPromptLabel, "* 取值范围：0～255");
-			}
-
-			if ((Green <= 255) && (Green >= 0)) {
-				setInfo(greenPromptLabel, "");
-			} else {
-				setInfo(greenPromptLabel, "* 取值范围：0～255");
-			}
-
-			if ((Blue <= 255) && (Blue >= 0)) {
-				setInfo(bluePromptLabel, "");
-			} else {
-				setInfo(bluePromptLabel, "* 取值范围：0～255");
-			}
-
-			if ((Red <= 255) && (Red >= 0) && (Green <= 255) && (Green >= 0) && (Blue <= 255) && (Blue >= 0)) {
-				if (!hexText.equals(Utils.toHexString(Red, Green, Blue))) {
-					showHexText.setText(Utils.toHexString(Red, Green, Blue));
-				}
-				textColor = new Color(Red, Green, Blue);
-			}
-
-			getShowColorText().setBackground(textColor);
-		} else {
-			
-			if (checkChar(redText, patternStr)) {
-				setInfo(redPromptLabel, "YYF说:F");
-			}
-			
-			if (checkChar(greenText, patternStr)) {
-				setInfo(greenPromptLabel, "YYF说:K");
-			}
-			
-			if (checkChar(blueText, patternStr)) {
-				setInfo(bluePromptLabel, "YYF说:U");
-			}
+		if(y > 201 || y < 0) {
+			y = y > 201 ? 201 : 0; 
 		}
-
+		coordinates[0] = x;
+		coordinates[1] = y;
+		return coordinates;
 	}
-
-	private void setInfo(JLabel infoLabel, String info) {	//提示框信息
-		infoLabel.setText(info);
-		infoLabel.setForeground(Color.RED);
-	}
-
-	private void setColorByHex() {	//根据Hex更新showColorText颜色
-		String str = getShowHexText().getText();
-		String pattern = "^[#][A-Fa-f0-9]{6}$";
-
-		Pattern r = Pattern.compile(pattern);
-		Matcher m = r.matcher(str);
-		if (m.matches()) {
-			Map<String, Integer> colorRGB = Utils.toRGB(str);
-			setRGBText("" + colorRGB.get("colorRed"), getShowRedText());
-			setRGBText("" + colorRGB.get("colorGreen"), getShowGreenText());
-			setRGBText("" + colorRGB.get("colorBlue"), getShowBlueText());
-			setInfo(hexPromptLabel, "");
+	
+	/**
+	 * 设置圆心的位置
+	 * 
+	 * @param y
+	 */
+	private void getMidOfCircled(int y) {
+		int midOfCircled = y;
+		if(midOfCircled > 6 && midOfCircled < 207) {
+			midOfCircled = y - hsvPalette_2.getCIRCLED_R();
 		}else {
-			setInfo(hexPromptLabel, "求你找个BUG出来");
+			midOfCircled = midOfCircled > 201 ? 201 : 0;
 		}
-
+		hsvPalette_2.setMidOfCircled(midOfCircled);
+		hsvPalette_2.repaint();
 	}
-
-	protected void setRGBText(String text, JTextField textField) {	//用于判断RGB JTextField内容与Text是否一致
-		if (!textField.getText().equals(text)) {
-			textField.setText(text);
+	
+	
+	/**
+	 * 获取Alph滑块圆形图标圆心的坐标
+	 * 
+	 * @param x
+	 * @return
+	 */
+	private int getSliderMidOfCirCled(int x) {
+		int sliderMidOfCircled = x;
+		if(sliderMidOfCircled > 6 && sliderMidOfCircled < 167) {
+			sliderMidOfCircled = x - alphSlider.getCIRCLED_R();
+		}else {
+			sliderMidOfCircled = sliderMidOfCircled > 160 ? 160 : 0;
 		}
+		return sliderMidOfCircled;
 	}
-
-	private boolean setPattern(String str, String pattern) {	//正则判断
-		Pattern r = Pattern.compile(pattern);
-		Matcher m = r.matcher(str);
-		return m.matches();
+	
+	/**
+	 * 根据鼠标拖拽圆心所经过的滑块的长度来显示Alph的值
+	 * 
+	 * @param sliderMidOfCircled
+	 */
+	private void setAlphTextByMouseDragged(int sliderMidOfCircled) {
+			float avage = 255 / 160f;
+			int alphTextValue = (int) (sliderMidOfCircled * avage);
+			this.getShowAlphText().setText(""+alphTextValue);
 	}
-
-	private boolean checkChar(String str, String pattern) {	//非法字符判断
-		boolean isChar = true;
-		if (setPattern(str, pattern)) {
-			isChar = false;
+	
+	/**
+	 * 当光标坐标大于圆心坐标时，每点击一次鼠标alph将会减一
+	 * 当光标坐标小于圆心坐标时，每点击一次鼠标alph将会加一
+	 * 
+	 * @param sliderMidOfCircledCoordinate
+	 * @param alphText
+	 * @return
+	 */
+	private float setAlphTextByMouseClicked(float sliderMidOfCircledCoordinate, String alphText) {
+		float avage = 160 / 255f;
+		int alphTextValue = Utils.toInt(alphText);
+		if(this.isMouseClicked()) {
+			this.getShowAlphText().setText(""+(alphTextValue + 1));
+			this.setSliderCoordinate(sliderMidOfCircledCoordinate + avage);
+		}else {
+			this.getShowAlphText().setText(""+(alphTextValue - 1));
+			this.setSliderCoordinate(sliderMidOfCircledCoordinate - avage);
 		}
-		return isChar;
+		return avage*alphTextValue;
+	}
+	
+	/**
+	 * 设置滑块圆心中心坐标
+	 * 
+	 * @param sliderMidOfCircled
+	 */
+	private void setSliderMidOfCircled(float sliderMidOfCircled) {
+		alphSlider.setSliderMidOfCircled((int)sliderMidOfCircled);
 	}
 }

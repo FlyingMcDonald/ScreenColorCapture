@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 
 public class ColorPickerFrame {
 	private MainPanel mainPanel;
-	private Color rgba0 = new Color(255, 255, 255, 0);
+	final private Color rgba0 = new Color(255, 255, 255, 0);
 	private Container container;
 	private JFrame colorPickerFrame;
 
@@ -34,7 +34,6 @@ public class ColorPickerFrame {
 	}
 	
 	public void showPanel() {
-		
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();	//获取当前屏幕设备大小
 		colorPickerFrame = new JFrame();
 		colorPickerFrame.setBounds(0, -1, (int)screensize.getWidth(), (int)screensize.getHeight()+1);//这里为什么要这么搞呢？自己运行一下就知道了
@@ -74,7 +73,6 @@ public class ColorPickerFrame {
 			colorInfo.setRedVal(color.getRed());
 			colorInfo.setGreenVal(color.getGreen());
 			colorInfo.setBlueVal(color.getBlue());
-			
 			mainPanel.getShowRedText().setText(""+colorInfo.getRedVal());
 			mainPanel.getShowGreenText().setText(""+colorInfo.getGreenVal());
 			mainPanel.getShowBlueText().setText(""+colorInfo.getBlueVal());

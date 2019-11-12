@@ -6,6 +6,29 @@ public class ColorInfoBean {
 	private int redVal;
 	private int greenVal;
 	private int blueVal;
+	private float hue;
+	private float saturaion;
+	private float value;
+	
+	
+	public float getHue() {
+		return hue;
+	}
+	public void setHue(float hue) {
+		this.hue = hue;
+	}
+	public float getSaturaion() {
+		return saturaion;
+	}
+	public void setSaturaion(float saturaion) {
+		this.saturaion = saturaion;
+	}
+	public float getValue() {
+		return value;
+	}
+	public void setValue(float value) {
+		this.value = value;
+	}
 	private Color pickedColor;
 	public int getRedVal() {
 		return redVal;
