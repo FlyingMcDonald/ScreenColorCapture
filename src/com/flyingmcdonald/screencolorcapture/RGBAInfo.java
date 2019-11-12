@@ -40,7 +40,7 @@ public class RGBAInfo {
 	 * @param rgbTextObj	数组
 	 */
 	public void setRGBText(int[] rgb, JTextField[] rgbTextObj) {
-		for (int i = 0; i < rgbTextObj.length; i++) {
+		for (int i = 0; i < rgbTextObj.length - 1; i++) {
 			if (!rgbTextObj[i].getText().equals(""+rgb[i])) {
 				rgbTextObj[i].setText(""+rgb[i]);
 			}

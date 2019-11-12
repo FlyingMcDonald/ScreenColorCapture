@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -265,14 +264,13 @@ public class MainPanel extends JFrame {
 	public void showInfoPanel() {
 		showInfoPanel = new JPanel(new BorderLayout());
 		showInfoPanel.setPreferredSize(new Dimension(385, 150));
-		showInfoPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 		
 		showRGBPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		showRGBPanel.setPreferredSize(new Dimension(170, 80));
 
 		
-		showHSVPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		showHSVPanel.setPreferredSize(new Dimension(202, 80));
+		showHSVPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		showHSVPanel.setPreferredSize(new Dimension(212, 80));
 		
 		showHexAndAlphaPanel = new JPanel(new BorderLayout());
 		showHexAndAlphaPanel.setPreferredSize(new Dimension(285, 90));
@@ -285,7 +283,7 @@ public class MainPanel extends JFrame {
 		
 		sliderLabel = new JLabel("Opacity:    ");
 		alphSlider = new AlphSlider();
-		alphSlider.setPreferredSize(new Dimension(178, 14));
+		alphSlider.setPreferredSize(new Dimension(188, 14));
 		alphSlider.addMouseMotionListener(new MouseAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
