@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 public class LanuchProgram extends JFrame{
 
 	/**
-	 * 
+	 * @author FlyingMcDonald
 	 */
 	private static final long serialVersionUID = 1L;
 
