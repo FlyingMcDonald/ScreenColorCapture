@@ -245,6 +245,7 @@ public class MainPanel extends JFrame {
 		this.setTitle(JTitle);
 		this.setSize(WIDTH, HEIGHT);
 		this.setResizable(isResize);
+		this.setDefaultCloseOperation(MainPanel.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(isVisible);
 	}
