@@ -11,7 +11,7 @@ public class LanuchProgram extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args){
-		try {
+		try { // Set up UI component
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
