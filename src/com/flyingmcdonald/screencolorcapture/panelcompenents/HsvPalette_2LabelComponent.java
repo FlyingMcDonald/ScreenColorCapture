@@ -11,7 +11,6 @@ public class HsvPalette_2LabelComponent extends JLabel {
     private static final long serialVersionUID = 1L;
     final private int CIRCLED_R = 7;
     final private int CIRCLED_D = this.CIRCLED_R * 2;
-    final private int height_2 = 200;
     private int midOfCircled;
 
     public int getMidOfCircled() {
@@ -35,9 +34,9 @@ public class HsvPalette_2LabelComponent extends JLabel {
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.clearRect(0, 0, 14, 216);
         int index_2 = this.CIRCLED_R;
         for(int i = 0; i < 100; i++) {
+            int height_2 = 200;
             for(int j = 0; j < (height_2 / 100); j++) {
                 g2.setColor(Color.getHSBColor(i/99f, 1.0f, 1.0f));
                 g2.drawLine(4, index_2, 10, index_2);

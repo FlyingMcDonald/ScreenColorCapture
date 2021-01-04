@@ -41,53 +41,57 @@ public class HsvPanelComponent {
         return showValueText;
     }
 
-    public JLabel getSaturationLabel() {
-        return saturationLabel;
-    }
-
-    public JLabel getHueLabel() {
-        return hueLabel;
-    }
-
-    public JLabel getValueLabel() {
-        return valueLabel;
-    }
-
-
     public HsvPanelComponent(MainPanel mainPanel){
         this.setMainPanel(mainPanel);
-        labelComponent();
-        jTextFieldComponent();
+        initPanelAndComponent();
         startEventsListener();
-        addLabelAndJTextFieldComponent();
-        integrateComponent();
+        Utils.integrateComponent(showHSVPanel, huePanel, saturationPanel, valuePanel,
+                hueLabel, showHueText, saturationLabel, showSaturationText,
+                valueLabel, showValueText);
+        addBorder();
     }
 
-    private void integrateComponent(){
-        showHSVPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        showHSVPanel.setPreferredSize(new Dimension(212, 80));
-        showHSVPanel.add(this.huePanel);
-        showHSVPanel.add(this.saturationPanel);
-        showHSVPanel.add(this.valuePanel);
-    }
-    private void labelComponent(){
-        this.hueLabel = new JLabel("Hue:        ");
+    /**
+     * 初始化面板和控件
+     */
+    private void initPanelAndComponent(){
+        showHSVPanel = new JPanel();
+        showHSVPanel.setBounds(0, 0, 180, 110);
+
+        huePanel = new JPanel(null);
+        huePanel.setPreferredSize(new Dimension(180, 30));
+
+        hueLabel = new JLabel("Hue:");
         Utils.setFonts(hueLabel);
+        hueLabel.setBounds(20, 5, 40, 20);
 
-        this.saturationLabel = new JLabel("Saturation: ");
+        showHueText = new JTextField("0", 4);
+        showHueText.setBounds(110, 6, 60, 20);
+
+        saturationPanel = new JPanel(null);
+        saturationPanel.setPreferredSize(new Dimension(180, 30));
+
+        saturationLabel = new JLabel("Saturation:");
         Utils.setFonts(saturationLabel);
+        saturationLabel.setBounds(0, 5, 80, 20);
 
-        this.valueLabel = new JLabel("Value:      ");
+        showSaturationText = new JTextField("0", 4);
+        showSaturationText.setBounds(110,6,60,20);
+
+        valuePanel = new JPanel(null);
+        valuePanel.setPreferredSize(new Dimension(180, 30));
+
+        valueLabel = new JLabel("Value:");
         Utils.setFonts(valueLabel);
+        valueLabel.setBounds(15, 5, 50, 20);
+
+        showValueText = new JTextField("100", 4);
+        showValueText.setBounds(110, 6, 60, 20);
     }
 
-    private void jTextFieldComponent(){
-        int TEXT_LANGTH = 4;
-        showHueText = new JTextField("0", TEXT_LANGTH);
-        showSaturationText = new JTextField("0", TEXT_LANGTH);
-        showValueText = new JTextField("100", TEXT_LANGTH);
-    }
-
+    /**
+     * 添加文本框事件监听器
+     */
     public void startEventsListener(){
         showHueText.getDocument().addDocumentListener(new HsvDocumentListener(this.mainPanel));
         showHueText.addFocusListener(new HsvFocusListener(this.mainPanel));
@@ -99,17 +103,13 @@ public class HsvPanelComponent {
         showValueText.addFocusListener(new HsvFocusListener(this.mainPanel));
     }
 
-    private void addLabelAndJTextFieldComponent(){
-        huePanel = new JPanel();
-        huePanel.add(this.getHueLabel());
-        huePanel.add(this.getShowHueText());
-
-        saturationPanel = new JPanel();
-        saturationPanel.add(this.getSaturationLabel());
-        saturationPanel.add(this.getShowSaturationText());
-
-        valuePanel = new JPanel();
-        valuePanel.add(this.getValueLabel());
-        valuePanel.add(this.getShowValueText());
+    /**
+     * 为 JPanel 和 Component 添加 Border
+     */
+    private void addBorder(){
+        huePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        saturationPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
+        valueLabel.setBorder(BorderFactory.createLineBorder(Color.cyan));
+        saturationLabel.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
     }
 }

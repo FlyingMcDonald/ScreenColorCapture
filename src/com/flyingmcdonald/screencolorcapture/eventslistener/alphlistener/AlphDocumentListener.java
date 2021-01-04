@@ -8,7 +8,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class AlphDocumentListener implements DocumentListener {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     /*public AlphPanelComponent getAlphPanelComponent() {
         return alphPanelComponent;

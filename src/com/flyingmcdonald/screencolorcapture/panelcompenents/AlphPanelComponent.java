@@ -51,31 +51,31 @@ public class AlphPanelComponent {
 
     public AlphPanelComponent(MainPanel mainPanel){
         this.setMainPanel(mainPanel);
-        labelComponent();
-        jTextFieldComponent();
+        initPanelAndComponent();
         eventsListener();
         integrateComponent();
+        addBorder();
     }
 
     private void integrateComponent(){
-        this.showAlphPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        this.showAlphPanel.setPreferredSize(new Dimension(285, 35));
-        this.showAlphPanel.add(this.getSliderLabel());
-        this.showAlphPanel.add(this.getAlphSliderLabelComponent());
-        this.showAlphPanel.add(this.getShowAlphText());
+        showAlphPanel.add(sliderLabel);
+        showAlphPanel.add(alphSliderLabelComponent);
+        showAlphPanel.add(showAlphText);
     }
 
-    private void labelComponent(){
-        this.sliderLabel = new JLabel("Opacity:    ");
+    private void initPanelAndComponent(){
+        showAlphPanel = new JPanel(null);
+        showAlphPanel.setBounds(0, 10, 385, 35);
+
+        sliderLabel = new JLabel("Opacity:");
+        sliderLabel.setBounds(7, 0, 70, 20);
         Utils.setFonts(this.getSliderLabel());
 
-        this.alphSliderLabelComponent = new AlphSliderLabelComponent();
-        this.alphSliderLabelComponent.setPreferredSize(new Dimension(188, 14));
-    }
+        alphSliderLabelComponent = new AlphSliderLabelComponent();
+        alphSliderLabelComponent.setBounds(85, 5, 188, 14);
 
-    private void jTextFieldComponent(){
-        int TEXT_LANGTH = 4;
-        showAlphText = new JTextField("255", TEXT_LANGTH);
+        showAlphText = new JTextField("255", 4);
+        showAlphText.setBounds(278, 2, 60, 20);
     }
 
     private void eventsListener(){
@@ -84,5 +84,10 @@ public class AlphPanelComponent {
 
         this.alphSliderLabelComponent.addMouseListener(new AlphMouseListener(this.mainPanel));
         this.alphSliderLabelComponent.addMouseMotionListener(new AlphMouseListener(this.mainPanel));
+    }
+
+    private void addBorder(){
+        sliderLabel.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
+        alphSliderLabelComponent.setBorder(BorderFactory.createLineBorder(Color.PINK));
     }
 }

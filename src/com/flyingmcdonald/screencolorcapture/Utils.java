@@ -376,4 +376,24 @@ public class Utils {
 		Color colorPlus = new Color(r, g, b);
 		return !color.equals(colorPlus);
 	}
+
+	/**
+	 * 将 Component 整合进 JPanel
+	 */
+	public static void integrateComponent(JPanel parentPanel, JPanel jPanel1, JPanel jPanel2
+			, JPanel jPanel3, Component component11, Component component12, Component component21,
+										  Component component22, Component component31, Component component32){
+		jPanel1.add(component11);
+		jPanel1.add(component12);
+
+		jPanel2.add(component21);
+		jPanel2.add(component22);
+
+		jPanel3.add(component31);
+		jPanel3.add(component32);
+
+		parentPanel.add(jPanel1);
+		parentPanel.add(jPanel2);
+		parentPanel.add(jPanel3);
+	}
 }

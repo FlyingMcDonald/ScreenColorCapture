@@ -2,27 +2,22 @@ package com.flyingmcdonald.screencolorcapture;
 
 import com.flyingmcdonald.screencolorcapture.panelcompenents.*;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class MainPanel extends JFrame {
+	private JPanel mainPanel;
 	private JPanel showInfoPanel;
 	private JPanel showColorPanel;
 	private JPanel colorPickPanel;
-	private Container contentPane;
+	private GridBagConstraints gbc;
+	private final Container contentPane;
 	private HsvPanelComponent hsvPanelComponent;
 	private RgbPanelComponent rgbPanelComponent;
 	private HexPanelComponent hexPanelComponent;
@@ -61,13 +56,14 @@ public class MainPanel extends JFrame {
 
 	public MainPanel() {
 		contentPane = this.getContentPane();
-		contentPane.setLayout(new BorderLayout());
-		mainPanel();
 		setTitle("Color Picker");
 		setSize(650, 320);
-		setResizable(false);
-		setDefaultCloseOperation(MainPanel.EXIT_ON_CLOSE);
+		setResizable(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		mainPanel();
+		addBorder();
+		setLayout(new ColorPickLayout());
 		setVisible(true);
 	}
 
@@ -75,8 +71,8 @@ public class MainPanel extends JFrame {
 	 * Integrate all components
 	 */
 	private void mainPanel() {
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		emptyPanel();
+		mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setPreferredSize(new Dimension(600, 250));
 		showColorPanel();
 		showColorPickPanel();
 		showInfoPanel();
@@ -91,23 +87,24 @@ public class MainPanel extends JFrame {
 	 * include: rgb, hsv, alph, hex components
 	 */
 	public void showInfoPanel() {
-		showInfoPanel = new JPanel(new BorderLayout());
-		showInfoPanel.setPreferredSize(new Dimension(385, 150));
+		showInfoPanel = new JPanel(null);
+		showInfoPanel.setPreferredSize(new Dimension(365, 150));
 
 		hsvPanelComponent = new HsvPanelComponent(this);
 		rgbPanelComponent = new RgbPanelComponent(this);
 		hexPanelComponent = new HexPanelComponent(this);
 		alphPanelComponent = new AlphPanelComponent(this);
 
-		JPanel showHexAndAlphaPanel = new JPanel(new BorderLayout());
-		showHexAndAlphaPanel.setPreferredSize(new Dimension(285, 90));
+		JPanel showHexAndAlphaPanel = new JPanel(null);
+		showHexAndAlphaPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		showHexAndAlphaPanel.setBounds(0, 110, 365, 90);
 
-		showHexAndAlphaPanel.add(hexPanelComponent.getShowHexPanel(), BorderLayout.SOUTH);
-		showHexAndAlphaPanel.add(alphPanelComponent.getShowAlphPanel(), BorderLayout.NORTH);
+		showHexAndAlphaPanel.add(hexPanelComponent.getShowHexPanel());
+		showHexAndAlphaPanel.add(alphPanelComponent.getShowAlphPanel());
 		
-		showInfoPanel.add(hsvPanelComponent.getShowHSVPanel(), BorderLayout.WEST);
-		showInfoPanel.add(rgbPanelComponent.getShowRGBPanel(), BorderLayout.EAST);
-		showInfoPanel.add(showHexAndAlphaPanel, BorderLayout.SOUTH);
+		showInfoPanel.add(hsvPanelComponent.getShowHSVPanel());
+		showInfoPanel.add(rgbPanelComponent.getShowRGBPanel());
+		showInfoPanel.add(showHexAndAlphaPanel);
 	}
 
 	/**
@@ -126,28 +123,45 @@ public class MainPanel extends JFrame {
 		colorPickPanel = colorPickPanelComponent.getColorPickPanel();
 	}
 
-	/**
-	 * Used for layout, taking up some free space
-	 */
-	private void emptyPanel() {
-		//East
-		JPanel emptyPanel_4 = new JPanel();
-		emptyPanel_4.setPreferredSize(new Dimension(10, 100));
-		contentPane.add(emptyPanel_4, BorderLayout.EAST);
-		
-		//South
-		JPanel emptyPanel_1 = new JPanel();
-		emptyPanel_1.setPreferredSize(new Dimension(100, 10));
-		contentPane.add(emptyPanel_1, BorderLayout.SOUTH);
-		
-		//North
-		JPanel emptyPanel_2 = new JPanel();
-		emptyPanel_2.setPreferredSize(new Dimension(100, 10));
-		contentPane.add(emptyPanel_2, BorderLayout.NORTH);
-		
-		//West
-		JPanel emptyPanel_3 = new JPanel();
-		emptyPanel_3.setPreferredSize(new Dimension(10, 100));
-		contentPane.add(emptyPanel_3, BorderLayout.WEST);
+	private void addBorder(){
+		hexPanelComponent.getShowHexPanel().setBorder(BorderFactory.createLineBorder(Color.cyan));
+		alphPanelComponent.getShowAlphPanel().setBorder(BorderFactory.createLineBorder(Color.red));
+		hsvPanelComponent.getShowHSVPanel().setBorder(BorderFactory.createLineBorder(Color.ORANGE));
+		rgbPanelComponent.getShowRGBPanel().setBorder(BorderFactory.createLineBorder(Color.magenta));
+		showInfoPanel.setBorder(BorderFactory.createLineBorder(Color.cyan));
 	}
+
+	private class ColorPickLayout implements LayoutManager{
+
+		@Override
+		public void addLayoutComponent(String name, Component comp) {
+
+		}
+
+		@Override
+		public void removeLayoutComponent(Component comp) {
+
+		}
+
+		@Override
+		public Dimension preferredLayoutSize(Container parent) {
+			return null;
+		}
+
+		@Override
+		public Dimension minimumLayoutSize(Container parent) {
+			return null;
+		}
+
+		@Override
+		public void layoutContainer(Container parent) {
+			int frameWid = parent.getWidth(); //获取窗体宽度
+			int frameHei = parent.getHeight();//获取窗体高度
+			Dimension mainPanelSize = mainPanel.getPreferredSize();//获取 mainPanel 的 size
+			int x = (frameWid - mainPanelSize.width) / 2;//计算 mainPanel 在 x 轴上的居中位置
+			int y = (frameHei - mainPanelSize.height) / 2;//计算 mainPanel 在 y 轴上的居中位置
+			mainPanel.setBounds(x, y, mainPanelSize.width, mainPanelSize.height);
+		}
+	}
+
 }

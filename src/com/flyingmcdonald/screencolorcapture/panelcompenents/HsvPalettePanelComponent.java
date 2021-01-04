@@ -5,6 +5,7 @@ import com.flyingmcdonald.screencolorcapture.eventslistener.hsvpalettelistener.H
 import com.flyingmcdonald.screencolorcapture.eventslistener.hsvpalettelistener.HsvPalette_2MouseListener;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class HsvPalettePanelComponent {
@@ -41,25 +42,25 @@ public class HsvPalettePanelComponent {
     }
 
     private void integrateComponent(){
-        this.hsvPalettePanel = new JPanel(new FlowLayout(0, 5, 0));
-        this.hsvPalettePanel.setPreferredSize(new Dimension(232, 220));
-        this.hsvPalettePanel.add(this.getHsvPalette_2LabelComponent());
-        this.hsvPalettePanel.add(this.getHsvPaletteLabelComponent());
+        hsvPalettePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        hsvPalettePanel.setPreferredSize(new Dimension(232, 220));
+        hsvPalettePanel.add(getHsvPalette_2LabelComponent());
+        hsvPalettePanel.add(getHsvPaletteLabelComponent());
     }
 
     private void labelComponent(){
-        this.hsvPaletteLabelComponent = new HsvPaletteLabelComponent();
-        this.hsvPaletteLabelComponent.setPreferredSize(new Dimension(202, 202));
+        hsvPaletteLabelComponent = new HsvPaletteLabelComponent();
+        hsvPaletteLabelComponent.setPreferredSize(new Dimension(202, 202));
 
-        this.hsvPalette_2LabelComponent = new HsvPalette_2LabelComponent();
-        this.hsvPalette_2LabelComponent.setPreferredSize(new Dimension(14, 216));
+        hsvPalette_2LabelComponent = new HsvPalette_2LabelComponent();
+        hsvPalette_2LabelComponent.setPreferredSize(new Dimension(14, 216));
     }
 
     private void addMouseListener(){
-        this.hsvPaletteLabelComponent.addMouseListener(new HsvPaletteMouseListener(this.mainPanel));
-        this.hsvPaletteLabelComponent.addMouseMotionListener(new HsvPaletteMouseListener(this.mainPanel));
+        hsvPaletteLabelComponent.addMouseListener(new HsvPaletteMouseListener(mainPanel));
+        hsvPaletteLabelComponent.addMouseMotionListener(new HsvPaletteMouseListener(mainPanel));
 
-        this.hsvPalette_2LabelComponent.addMouseListener(new HsvPalette_2MouseListener(this.mainPanel));
-        this.hsvPalette_2LabelComponent.addMouseMotionListener(new HsvPalette_2MouseListener(this.mainPanel));
+        hsvPalette_2LabelComponent.addMouseListener(new HsvPalette_2MouseListener(mainPanel));
+        hsvPalette_2LabelComponent.addMouseMotionListener(new HsvPalette_2MouseListener(mainPanel));
     }
 }

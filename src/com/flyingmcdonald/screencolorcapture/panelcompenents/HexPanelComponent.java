@@ -43,8 +43,8 @@ public class HexPanelComponent {
     }
 
     private void integrateComponent(){
-        showHexPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        showHexPanel.setPreferredSize(new Dimension(285, 55));
+        showHexPanel = new JPanel();
+        showHexPanel.setBounds(0, 50, 285, 35);
         showHexPanel.add(getHexLabel());
         showHexPanel.add(getShowHexText());
     }
@@ -55,7 +55,7 @@ public class HexPanelComponent {
     }
 
     private void jTextFieldComponent(){
-        this.showHexText = new JTextField("#FFFFFFFF", 11);
+        showHexText = new JTextField("#FFFFFFFF", 11);
     }
 
     private void eventsListener(){

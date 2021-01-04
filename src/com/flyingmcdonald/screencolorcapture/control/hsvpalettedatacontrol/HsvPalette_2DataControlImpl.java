@@ -5,7 +5,7 @@ import com.flyingmcdonald.screencolorcapture.panelcompenents.HsvPalette_2LabelCo
 
 public class HsvPalette_2DataControlImpl implements HsvPalette_2DataControl {
     private HsvPalettePanelComponent hsvPalettePanelComponent;
-    private HsvPalette_2LabelComponent hsvPalette_2LabelComponent;
+    private final HsvPalette_2LabelComponent hsvPalette_2LabelComponent;
 
     public HsvPalettePanelComponent getHsvPalettePanelComponent() {
         return hsvPalettePanelComponent;
