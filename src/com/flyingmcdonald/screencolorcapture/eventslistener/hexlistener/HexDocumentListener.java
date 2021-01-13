@@ -1,6 +1,7 @@
 package com.flyingmcdonald.screencolorcapture.eventslistener.hexlistener;
 
 import com.flyingmcdonald.screencolorcapture.MainPanel;
+import com.flyingmcdonald.screencolorcapture.Utils;
 import com.flyingmcdonald.screencolorcapture.control.DataControl;
 import com.flyingmcdonald.screencolorcapture.control.DataControlImpl;
 
@@ -8,7 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class HexDocumentListener implements DocumentListener {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public HexDocumentListener(MainPanel mainPanel){
         this.dataControl = new DataControlImpl(mainPanel);
@@ -16,7 +17,9 @@ public class HexDocumentListener implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        dataControl.changeRgbaFieldValueByHexFieldValue();
+        if (Utils.rgbFlag) {
+            dataControl.changeRgbaFieldValueByHexFieldValue();
+        }
     }
 
     @Override

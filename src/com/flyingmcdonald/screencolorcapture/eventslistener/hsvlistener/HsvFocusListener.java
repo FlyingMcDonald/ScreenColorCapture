@@ -8,7 +8,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class HsvFocusListener extends FocusAdapter {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public HsvFocusListener(MainPanel mainPanel){
         dataControl = new DataControlImpl(mainPanel);

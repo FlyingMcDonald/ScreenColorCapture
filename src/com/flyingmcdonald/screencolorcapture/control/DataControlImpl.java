@@ -43,7 +43,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeHsvFieldValueByRgbchanged() {
-        if (Utils.rgbFlag) {
+        if (Utils.hsvFlag) {
             rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
             String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
             if (Utils.checkRgbFieldValue(rgbStrArray)) {
@@ -96,6 +96,7 @@ public class DataControlImpl implements DataControl {
     }
 
     private void changeHexFieldValue(List<Integer> rgbaList){
+        Utils.hexFlag = false;
         hexDataControl = new HexDataControlImpl(this.mainPanel.getHexPanelComponent());
         String hexFieldValue = hexDataControl.getSafeHexFieldValue();
         String hexFieldValuePlus = Utils.toRgbHexString(rgbaList.get(0), rgbaList.get(1), rgbaList.get(2));
@@ -125,17 +126,15 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeRgbFieldValueByHsvChanged() {
-        if (Utils.hsvFlag) {
-            hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
-            rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
-            String[] hsvStrArray = hsvDataControl.getHsvFieldValue();
-            if (Utils.checkHsvFieldValue(hsvStrArray)) {
-                float[] hsbFloatArray = hsvDataControl.getHsvFloatValue(Utils.StringToInt(hsvStrArray));
-                int[] rgbIntArray = Utils.StringToInt(rgbDataControl.getSafeRGBFieldValue());
-                if (Utils.compareHsvAndRgb(hsbFloatArray, rgbIntArray)) {
-                    int[] rgb = rgbDataControl.getRGBFieldValue(Color.getHSBColor(hsbFloatArray[0], hsbFloatArray[1], hsbFloatArray[2]));
-                    rgbDataControl.setRGBFieldValue(rgb, rgbDataControl.getRGBFieldObject());
-                }
+        hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
+        rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+        String[] hsvStrArray = hsvDataControl.getHsvFieldValue();
+        if (Utils.checkHsvFieldValue(hsvStrArray)) {
+            float[] hsbFloatArray = hsvDataControl.getHsvFloatValue(Utils.StringToInt(hsvStrArray));
+            int[] rgbIntArray = Utils.StringToInt(rgbDataControl.getSafeRGBFieldValue());
+            if (Utils.compareHsvAndRgb(hsbFloatArray, rgbIntArray)) {
+                int[] rgb = rgbDataControl.getRGBFieldValue(Color.getHSBColor(hsbFloatArray[0], hsbFloatArray[1], hsbFloatArray[2]));
+                rgbDataControl.setRGBFieldValue(rgb, rgbDataControl.getRGBFieldObject());
             }
         }
     }
@@ -143,8 +142,8 @@ public class DataControlImpl implements DataControl {
     /**
      * 将hsvPalette两条线的交叉点的坐标所在HSB值转换成RGB值
      *
-     * @param x
-     * @param y
+     * @param x 横坐标
+     * @param y 纵坐标
      */
     @Override
     public void colorToHsv(int x, int y) {

@@ -65,10 +65,16 @@ public class ColorPickPanelComponent {
 
     public void eventsListener(){
         exitBtn.addActionListener(e -> System.exit(0));
-        colorPickBtn.addActionListener(e -> openColorPickerFrame());
+        colorPickBtn.addActionListener(e -> {
+            try {
+                openColorPickerFrame();
+            } catch (AWTException awtException) {
+                awtException.printStackTrace();
+            }
+        });
     }
 
-    private void openColorPickerFrame() {	//打开子窗口
+    private void openColorPickerFrame() throws AWTException {	//打开子窗口
         ColorPickFrame colorPickFrame = new ColorPickFrame();
         colorPickFrame.setMainPanel(this.mainPanel);//将当前窗口作为参数传进子窗口
         colorPickFrame.colorPick();

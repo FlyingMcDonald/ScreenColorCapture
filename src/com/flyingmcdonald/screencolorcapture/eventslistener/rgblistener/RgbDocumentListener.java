@@ -1,6 +1,7 @@
 package com.flyingmcdonald.screencolorcapture.eventslistener.rgblistener;
 
 import com.flyingmcdonald.screencolorcapture.MainPanel;
+import com.flyingmcdonald.screencolorcapture.Utils;
 import com.flyingmcdonald.screencolorcapture.control.DataControl;
 import com.flyingmcdonald.screencolorcapture.control.DataControlImpl;
 
@@ -8,7 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class RgbDocumentListener implements DocumentListener {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public RgbDocumentListener(MainPanel mainPanel){
         dataControl = new DataControlImpl(mainPanel);

@@ -32,11 +32,7 @@ public class HsvDataControlImpl implements HsvDataControl {
 
     @Override
     public void setHsvFieldValue(int[] hsvIntArray, JTextField[] HsvFieldObject) {
-        Utils.hsvFlag = false;
         for (int i = 0; i < HsvFieldObject.length; i++) {
-            if (i == HsvFieldObject.length -1){
-                Utils.hsvFlag = true;
-            }
             if (!HsvFieldObject[i].getText().equals(""+hsvIntArray[i])) {
                 HsvFieldObject[i].setText(""+hsvIntArray[i]);
             }
