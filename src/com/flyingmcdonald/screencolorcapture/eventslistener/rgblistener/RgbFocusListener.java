@@ -8,7 +8,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class RgbFocusListener extends FocusAdapter {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public RgbFocusListener(MainPanel mainPanel){
         dataControl = new DataControlImpl(mainPanel);

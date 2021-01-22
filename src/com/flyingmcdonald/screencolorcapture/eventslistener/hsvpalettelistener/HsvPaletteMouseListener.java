@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 
 public class HsvPaletteMouseListener extends MouseAdapter {
     private HsvPaletteLabelComponent hsvPaletteLabelComponent;
-    private DataControl dataControl;
+    private final DataControl dataControl;
     private MainPanel mainPanel;
     Cursor cursor;
     Cursor cursorReset;
@@ -33,21 +33,21 @@ public class HsvPaletteMouseListener extends MouseAdapter {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        this.hsvPaletteLabelComponent = this.mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
+        hsvPaletteLabelComponent = mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
         hsvPaletteLabelComponent.setCursor(cursor);
         dataControl.colorToHsv(e.getX(), e.getY());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.hsvPaletteLabelComponent = this.mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
+        hsvPaletteLabelComponent = mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
         hsvPaletteLabelComponent.setCursor(cursor);
         dataControl.colorToHsv(e.getX(), e.getY());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        this.hsvPaletteLabelComponent = this.mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
+        hsvPaletteLabelComponent = mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
         hsvPaletteLabelComponent.setCursor(cursorReset);
     }
 }

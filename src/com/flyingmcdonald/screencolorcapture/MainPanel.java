@@ -16,7 +16,6 @@ public class MainPanel extends JFrame {
 	private JPanel showInfoPanel;
 	private JPanel showColorPanel;
 	private JPanel colorPickPanel;
-	private GridBagConstraints gbc;
 	private final Container contentPane;
 	private HsvPanelComponent hsvPanelComponent;
 	private RgbPanelComponent rgbPanelComponent;
@@ -72,14 +71,14 @@ public class MainPanel extends JFrame {
 	 */
 	private void mainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setPreferredSize(new Dimension(600, 250));
+		mainPanel.setPreferredSize(new Dimension(600, 266));
 		showColorPanel();
 		showColorPickPanel();
 		showInfoPanel();
 		mainPanel.add(showInfoPanel, BorderLayout.EAST);
 		mainPanel.add(showColorPanel, BorderLayout.WEST);
 		mainPanel.add(colorPickPanel, BorderLayout.SOUTH);
-		contentPane.add(mainPanel, BorderLayout.CENTER);
+		contentPane.add(mainPanel);
 	}
 
 	/**
@@ -96,11 +95,11 @@ public class MainPanel extends JFrame {
 		alphPanelComponent = new AlphPanelComponent(this);
 
 		JPanel showHexAndAlphaPanel = new JPanel(null);
-		showHexAndAlphaPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		showHexAndAlphaPanel.setBounds(0, 110, 365, 90);
+		showHexAndAlphaPanel.setBounds(0, 150, 365, 65);
 
 		showHexAndAlphaPanel.add(hexPanelComponent.getShowHexPanel());
 		showHexAndAlphaPanel.add(alphPanelComponent.getShowAlphPanel());
+		showHexAndAlphaPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
 		
 		showInfoPanel.add(hsvPanelComponent.getShowHSVPanel());
 		showInfoPanel.add(rgbPanelComponent.getShowRGBPanel());

@@ -43,7 +43,8 @@ public class HsvPalettePanelComponent {
 
     private void integrateComponent(){
         hsvPalettePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        hsvPalettePanel.setPreferredSize(new Dimension(232, 220));
+        hsvPalettePanel.setPreferredSize(new Dimension(232, 230));
+        hsvPalettePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
         hsvPalettePanel.add(getHsvPalette_2LabelComponent());
         hsvPalettePanel.add(getHsvPaletteLabelComponent());
     }
@@ -51,7 +52,6 @@ public class HsvPalettePanelComponent {
     private void labelComponent(){
         hsvPaletteLabelComponent = new HsvPaletteLabelComponent();
         hsvPaletteLabelComponent.setPreferredSize(new Dimension(202, 202));
-
         hsvPalette_2LabelComponent = new HsvPalette_2LabelComponent();
         hsvPalette_2LabelComponent.setPreferredSize(new Dimension(14, 216));
     }

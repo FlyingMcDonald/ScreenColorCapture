@@ -2,15 +2,15 @@ package com.flyingmcdonald.screencolorcapture;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
-	public static boolean hexFlag = true;
-	public static boolean rgbFlag = true;
-	public static boolean hsvFlag = true;
+	public static boolean flag = true;
 
 	/**
 	 * Convert decimal rgb integer value to hexadecimal string
@@ -222,7 +222,21 @@ public class Utils {
 	 * @param labelObject JLabel object
 	 */
 	public static void setFonts(JLabel labelObject) {
-		labelObject.setFont(new Font("Hack", Font.PLAIN, 16));
+		labelObject.setFont(Utils.loadFont());
+	}
+
+	private static Font loadFont() {
+		try{
+			File file = new File(System.getProperty("user.dir") + File.separator + "fonts/JetBrainsMono-Regular.ttf");
+			FileInputStream font = new FileInputStream(file);
+			Font dynameicFont = Font.createFont(Font.TRUETYPE_FONT, font);
+			Font dynameicFontPt = dynameicFont.deriveFont((float) 13);
+			font.close();
+			return dynameicFontPt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Font("宋体", Font.PLAIN, 14);
+		}
 	}
 
 	/**
@@ -395,5 +409,9 @@ public class Utils {
 		parentPanel.add(jPanel1);
 		parentPanel.add(jPanel2);
 		parentPanel.add(jPanel3);
+	}
+
+	public static void componentConfig(JPanel[] jpanelsArrary, Component[] componentsArrary){
+
 	}
 }

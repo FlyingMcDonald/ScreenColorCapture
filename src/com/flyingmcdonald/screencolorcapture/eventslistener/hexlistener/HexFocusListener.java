@@ -8,7 +8,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class HexFocusListener extends FocusAdapter {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public HexFocusListener(MainPanel mainPanel){
         dataControl = new DataControlImpl(mainPanel);

@@ -44,13 +44,13 @@ public class HexPanelComponent {
 
     private void integrateComponent(){
         showHexPanel = new JPanel();
-        showHexPanel.setBounds(0, 50, 285, 35);
+        showHexPanel.setBounds(0, 30, 285, 35);
         showHexPanel.add(getHexLabel());
         showHexPanel.add(getShowHexText());
     }
 
     private void labelComponent(){
-        hexLabel = new JLabel("Hex: ");
+        hexLabel = new JLabel("Hex:");
         Utils.setFonts(hexLabel);
     }
 

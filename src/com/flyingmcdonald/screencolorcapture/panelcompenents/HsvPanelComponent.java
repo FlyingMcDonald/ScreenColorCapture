@@ -55,35 +55,35 @@ public class HsvPanelComponent {
      * 初始化面板和控件
      */
     private void initPanelAndComponent(){
-        showHSVPanel = new JPanel();
-        showHSVPanel.setBounds(0, 0, 180, 110);
+        showHSVPanel = new JPanel(null);
+        showHSVPanel.setBounds(0, 0, 180, 150);
 
         huePanel = new JPanel(null);
-        huePanel.setPreferredSize(new Dimension(180, 30));
+        huePanel.setBounds(0, 0, 180, 30);
 
         hueLabel = new JLabel("Hue:");
         Utils.setFonts(hueLabel);
-        hueLabel.setBounds(20, 5, 40, 20);
+        hueLabel.setBounds(0, 5, 40, 20);
 
         showHueText = new JTextField("0", 4);
-        showHueText.setBounds(110, 6, 60, 20);
+        showHueText.setBounds(90, 0, 100, 30);
 
         saturationPanel = new JPanel(null);
-        saturationPanel.setPreferredSize(new Dimension(180, 30));
+        saturationPanel.setBounds(0, 50, 180, 30);
 
         saturationLabel = new JLabel("Saturation:");
         Utils.setFonts(saturationLabel);
-        saturationLabel.setBounds(0, 5, 80, 20);
+        saturationLabel.setBounds(0, 5, 90, 20);
 
         showSaturationText = new JTextField("0", 4);
         showSaturationText.setBounds(110,6,60,20);
 
         valuePanel = new JPanel(null);
-        valuePanel.setPreferredSize(new Dimension(180, 30));
+        valuePanel.setBounds(0, 100, 180, 30);
 
         valueLabel = new JLabel("Value:");
         Utils.setFonts(valueLabel);
-        valueLabel.setBounds(15, 5, 50, 20);
+        valueLabel.setBounds(0, 5, 50, 20);
 
         showValueText = new JTextField("100", 4);
         showValueText.setBounds(110, 6, 60, 20);
@@ -107,6 +107,7 @@ public class HsvPanelComponent {
      * 为 JPanel 和 Component 添加 Border
      */
     private void addBorder(){
+        showHSVPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
         huePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         saturationPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
         valueLabel.setBorder(BorderFactory.createLineBorder(Color.cyan));

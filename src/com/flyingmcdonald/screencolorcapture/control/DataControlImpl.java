@@ -27,7 +27,6 @@ public class DataControlImpl implements DataControl {
     private HsvDataControl hsvDataControl;
     private HexDataControl hexDataControl;
     private AlphDataControl alphDataControl;
-    private HsvPaletteDataControl hsvPaletteDataControl;
 
     public MainPanel getMainPanel() {
         return mainPanel;
@@ -43,48 +42,45 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeHsvFieldValueByRgbchanged() {
-        if (Utils.hsvFlag) {
-            rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
-            String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
-            if (Utils.checkRgbFieldValue(rgbStrArray)) {
-                hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
-                float[] hsvFloatArray = hsvDataControl.getSafeHsvFloatValue();
-                int[] rgbIntArray = Utils.StringToInt(rgbStrArray);
-                if (Utils.compareHsvAndRgb(hsvFloatArray, rgbIntArray)) {
-                    int[] hsvIntArray = Utils.RgbtoHsv(rgbIntArray);
-                    hsvDataControl.setHsvFieldValue(hsvIntArray, hsvDataControl.getHsvFieldObject());
-                }
+        Utils.flag = false;
+        rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
+        String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
+        if (Utils.checkRgbFieldValue(rgbStrArray)) {
+            hsvDataControl = new HsvDataControlImpl(mainPanel.getHsvPanelComponent());
+            float[] hsvFloatArray = hsvDataControl.getSafeHsvFloatValue();
+            int[] rgbIntArray = Utils.StringToInt(rgbStrArray);
+            if (Utils.compareHsvAndRgb(hsvFloatArray, rgbIntArray)) {
+                int[] hsvIntArray = Utils.RgbtoHsv(rgbIntArray);
+                hsvDataControl.setHsvFieldValue(hsvIntArray, hsvDataControl.getHsvFieldObject());
             }
         }
     }
 
     @Override
     public void setHexFieldValueByRgb() {
-        if (Utils.hexFlag) {
-            rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
-            String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
-            if (Utils.checkRgbFieldValue(rgbStrArray)) {
-                int[] rgbIntArray = Utils.StringToInt(rgbStrArray);
-                alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
-                hexDataControl = new HexDataControlImpl(this.mainPanel.getHexPanelComponent());
-                int alph = alphDataControl.getSafeAlphFieldValue();
-                List<Integer> rgbaList = new ArrayList<>();
-                rgbaList.add(rgbIntArray[0]);
-                rgbaList.add(rgbIntArray[1]);
-                rgbaList.add(rgbIntArray[2]);
-                rgbaList.add(alph);
-                changeHexFieldValue(rgbaList);
-            }
+        rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
+        String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
+        if (Utils.checkRgbFieldValue(rgbStrArray)) {
+            int[] rgbIntArray = Utils.StringToInt(rgbStrArray);
+            alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
+            hexDataControl = new HexDataControlImpl(mainPanel.getHexPanelComponent());
+            int alph = alphDataControl.getSafeAlphFieldValue();
+            List<Integer> rgbaList = new ArrayList<>();
+            rgbaList.add(rgbIntArray[0]);
+            rgbaList.add(rgbIntArray[1]);
+            rgbaList.add(rgbIntArray[2]);
+            rgbaList.add(alph);
+            changeHexFieldValue(rgbaList);
         }
     }
 
     @Override
     public void setHexFieldValueByAlph() {
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
         String alphStr = alphDataControl.getAlphFieldValue();
         if (Utils.checkAlphFieldValue(alphStr)) {
             int alph = Utils.toInt(alphStr);
-            rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+            rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
             int[] rgbIntArray = Utils.StringToInt(rgbDataControl.getSafeRGBFieldValue());
             List<Integer> rgbaList = new ArrayList<>();
             rgbaList.add(rgbIntArray[0]);
@@ -96,8 +92,7 @@ public class DataControlImpl implements DataControl {
     }
 
     private void changeHexFieldValue(List<Integer> rgbaList){
-        Utils.hexFlag = false;
-        hexDataControl = new HexDataControlImpl(this.mainPanel.getHexPanelComponent());
+        hexDataControl = new HexDataControlImpl(mainPanel.getHexPanelComponent());
         String hexFieldValue = hexDataControl.getSafeHexFieldValue();
         String hexFieldValuePlus = Utils.toRgbHexString(rgbaList.get(0), rgbaList.get(1), rgbaList.get(2));
         String hexFieldValuePro = Utils.toRgbaHexString(rgbaList.get(0), rgbaList.get(1), rgbaList.get(2), rgbaList.get(3));
@@ -112,7 +107,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeAplhSliderMidOfCircled() {
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
         AlphSliderLabelComponent alphSliderLabelComponent = alphDataControl.getAlphSliderLabelComponent();
         if(alphSliderLabelComponent != null) {
             String alphStr = alphDataControl.getAlphFieldValue();
@@ -126,13 +121,14 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeRgbFieldValueByHsvChanged() {
-        hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
-        rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+        hsvDataControl = new HsvDataControlImpl(mainPanel.getHsvPanelComponent());
         String[] hsvStrArray = hsvDataControl.getHsvFieldValue();
         if (Utils.checkHsvFieldValue(hsvStrArray)) {
+            rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
             float[] hsbFloatArray = hsvDataControl.getHsvFloatValue(Utils.StringToInt(hsvStrArray));
             int[] rgbIntArray = Utils.StringToInt(rgbDataControl.getSafeRGBFieldValue());
             if (Utils.compareHsvAndRgb(hsbFloatArray, rgbIntArray)) {
+                Utils.flag = false;
                 int[] rgb = rgbDataControl.getRGBFieldValue(Color.getHSBColor(hsbFloatArray[0], hsbFloatArray[1], hsbFloatArray[2]));
                 rgbDataControl.setRGBFieldValue(rgb, rgbDataControl.getRGBFieldObject());
             }
@@ -147,11 +143,11 @@ public class DataControlImpl implements DataControl {
      */
     @Override
     public void colorToHsv(int x, int y) {
-        hsvPaletteDataControl = new HsvPaletteDataControlImpl(this.mainPanel.getHsvPalettePanelComponent());
+        HsvPaletteDataControl hsvPaletteDataControl = new HsvPaletteDataControlImpl(mainPanel.getHsvPalettePanelComponent());
         int[] crosshair = hsvPaletteDataControl.getCrossCoordinates(x, y);
         hsvPaletteDataControl.setCrosshair(crosshair);
-        HsvPaletteLabelComponent hsvPaletteLabelComponent = this.mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
-        hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
+        HsvPaletteLabelComponent hsvPaletteLabelComponent = mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
+        hsvDataControl = new HsvDataControlImpl(mainPanel.getHsvPanelComponent());
         JTextField[] hsvFieldObject = hsvDataControl.getHsvFieldObject();
         int h = (int) (hsvPaletteLabelComponent.getHue() * 100 + 0.5f);
         int[] coordinates = Utils.checkCoordinates(x, y);
@@ -163,28 +159,25 @@ public class DataControlImpl implements DataControl {
     }
 
     @Override
-    public void changeHueInHsvPalette(int x) {
-        hsvPaletteDataControl = new HsvPaletteDataControlImpl(this.getMainPanel().getHsvPalettePanelComponent());
-        HsvPalette_2DataControl hsvPalette_2DataControl = new HsvPalette_2DataControlImpl(this.getMainPanel().getHsvPalettePanelComponent());
-        HsvPanelComponent hsvPanelComponent = this.getMainPanel().getHsvPanelComponent();
-        int midOfCircled = hsvPalette_2DataControl.getMidOfCircled(x);
-        HsvPaletteLabelComponent hsvPaletteLabelComponent = this.getMainPanel().getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
-        if(midOfCircled > 201 || midOfCircled < 0) {
-            midOfCircled = midOfCircled > 201 ? 201 : 0;
-        }
+    public void changeHueInHsvPalette(int y) {
+        HsvPalette_2DataControl hsvPalette_2DataControl = new HsvPalette_2DataControlImpl(mainPanel.getHsvPalettePanelComponent());
+        HsvPanelComponent hsvPanelComponent = mainPanel.getHsvPanelComponent();
+        HsvDataControlImpl hsvDataControl = new HsvDataControlImpl(hsvPanelComponent);
+        HsvPaletteLabelComponent hsvPaletteLabelComponent = mainPanel.getHsvPalettePanelComponent().getHsvPaletteLabelComponent();
+        int midOfCircled = hsvPalette_2DataControl.getMidOfCircled(y);
         hsvPalette_2DataControl.setMidOfCircled(midOfCircled);
         float coordinateY = (float) midOfCircled / 201f;
         hsvPaletteLabelComponent.setHue(coordinateY);
-        hsvPanelComponent.getShowHueText().setText((int)(coordinateY * 100 + 0.5f) + "");
+        hsvDataControl.setHsvFieldValue((int)(coordinateY * 100 + 0.5f) + "", hsvPanelComponent.getShowHueText());
         hsvPaletteLabelComponent.repaint();
     }
 
     @Override
     public void setAlphFieldValueByMouseClicked(int x) {
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
-        AlphSliderLabelComponent alphSliderLabelComponent = this.mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent();
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
+        AlphSliderLabelComponent alphSliderLabelComponent = mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent();
         int sliderMidOfCircled = alphSliderLabelComponent.getSliderMidOfCircled();
-        String alphFieldValue = Utils.checkString(this.mainPanel.getAlphPanelComponent().getShowAlphText().getText(), "[^\\d]");
+        String alphFieldValue = Utils.checkString(mainPanel.getAlphPanelComponent().getShowAlphText().getText(), "[^\\d]");
         int alphTextValue = Utils.toInt(alphFieldValue);
         float AVAGE = 160 / 255f;
         if(x > sliderMidOfCircled) {
@@ -197,22 +190,22 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void setAlphFieldValueByMouseDragged(int x) {
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
         int sliderMidOfCircled = alphDataControl.getSliderMidOfCirCled(x);
         if(sliderMidOfCircled >= 0 && sliderMidOfCircled <= 160){
-            this.mainPanel.getAlphPanelComponent().getShowAlphText().setText("" + (int)(sliderMidOfCircled * (255 / 160f)));
-            this.mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent().setSliderMidOfCircled(sliderMidOfCircled);
+            mainPanel.getAlphPanelComponent().getShowAlphText().setText("" + (int)(sliderMidOfCircled * (255 / 160f)));
+            mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent().setSliderMidOfCircled(sliderMidOfCircled);
         }
-        this.mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent().repaint();
+        mainPanel.getAlphPanelComponent().getAlphSliderLabelComponent().repaint();
     }
 
     @Override
     public void showColorInColorLabel() {
-        rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+        rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
         String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
         if (Utils.checkRgbFieldValue(rgbStrArray)) {
-            alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
-            ShowColorLabelComponent showColorLabelComponent = this.mainPanel.getColorPickPanelComponent().getShowColorLabelComponent();
+            alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
+            ShowColorLabelComponent showColorLabelComponent = mainPanel.getColorPickPanelComponent().getShowColorLabelComponent();
             int[] rgbIntArray = Utils.StringToInt(rgbDataControl.getRgbFieldValue());
             String alphStr = alphDataControl.getAlphFieldValue();
             if (Utils.checkAlphFieldValue(alphStr)) {
@@ -220,6 +213,7 @@ public class DataControlImpl implements DataControl {
                 showColorLabelComponent.repaint();
             }
         }
+        Utils.flag = true;
     }
 
     @Override
@@ -229,7 +223,7 @@ public class DataControlImpl implements DataControl {
             //获取当前像素颜色RGB值
             Color color = robot.getPixelColor(x, y);
             int[] rgbStrArray = {color.getRed(), color.getGreen(), color.getBlue()};
-            rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+            rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
             rgbDataControl.setRGBFieldValue(rgbStrArray, rgbDataControl.getRGBFieldObject());
         } catch (AWTException e1) {
             e1.printStackTrace();
@@ -238,14 +232,15 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void changeRgbaFieldValueByHexFieldValue() {
-        rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
-        hexDataControl = new HexDataControlImpl(this.mainPanel.getHexPanelComponent());
+        rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
+        hexDataControl = new HexDataControlImpl(mainPanel.getHexPanelComponent());
         int[] rgbStrArray = Utils.StringToInt(rgbDataControl.getSafeRGBFieldValue());
         int alph = alphDataControl.getSafeAlphFieldValue();
         String hexFieldValuePlus = Utils.toRgbaHexString(rgbStrArray[0], rgbStrArray[1], rgbStrArray[2], alph);
         String hexFieldValue = hexDataControl.getHexFieldValue();
         if (hexFieldValue != null && !hexFieldValue.equalsIgnoreCase(hexFieldValuePlus)){
+            Utils.flag = false;
             List<Integer> rgbaList = Utils.toRGBA(hexFieldValue);
             if (rgbaList.size() == 3){
                 rgbDataControl.setRGBFieldValue(rgbaList, rgbDataControl.getRGBFieldObject());
@@ -258,7 +253,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void alphFieldLostFocus() {
-        alphDataControl = new AlphDataControlImpl(this.mainPanel.getAlphPanelComponent());
+        alphDataControl = new AlphDataControlImpl(mainPanel.getAlphPanelComponent());
         String alphStr = alphDataControl.getAlphFieldValue();
         if (alphStr == null || Utils.toInt(alphStr) > 255){
             alphDataControl.setAlphFieldValue(255);
@@ -267,7 +262,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void rgbFieldLostFocus() {
-        rgbDataControl = new RgbDataControlImpl(this.mainPanel.getRgbPanelComponent());
+        rgbDataControl = new RgbDataControlImpl(mainPanel.getRgbPanelComponent());
         String[] rgbStrArray = rgbDataControl.getRgbFieldValue();
         JTextField[] rgbFieldArray = rgbDataControl.getRGBFieldObject();
         for (int i = 0; i < rgbFieldArray.length; i++){
@@ -279,7 +274,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void hsvFieldLostFocus() {
-        hsvDataControl = new HsvDataControlImpl(this.mainPanel.getHsvPanelComponent());
+        hsvDataControl = new HsvDataControlImpl(mainPanel.getHsvPanelComponent());
         String[] hsvStrArray = hsvDataControl.getHsvFieldValue();
         JTextField[] hsvFieldArray = hsvDataControl.getHsvFieldObject();
         for (int i = 0; i < hsvFieldArray.length; i++){
@@ -291,7 +286,7 @@ public class DataControlImpl implements DataControl {
 
     @Override
     public void hexFieldLostFocus() {
-        hexDataControl = new HexDataControlImpl(this.mainPanel.getHexPanelComponent());
+        hexDataControl = new HexDataControlImpl(mainPanel.getHexPanelComponent());
         String hexStr = hexDataControl.getHexFieldValue();
         if (hexStr == null){
             hexDataControl.setHexFieldValue("#FFFFFFFF");

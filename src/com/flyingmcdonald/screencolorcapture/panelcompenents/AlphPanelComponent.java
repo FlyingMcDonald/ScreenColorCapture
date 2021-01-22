@@ -54,7 +54,7 @@ public class AlphPanelComponent {
         initPanelAndComponent();
         eventsListener();
         integrateComponent();
-        addBorder();
+//        addBorder();
     }
 
     private void integrateComponent(){
@@ -65,10 +65,10 @@ public class AlphPanelComponent {
 
     private void initPanelAndComponent(){
         showAlphPanel = new JPanel(null);
-        showAlphPanel.setBounds(0, 10, 385, 35);
+        showAlphPanel.setBounds(0, 0, 385, 30);
 
         sliderLabel = new JLabel("Opacity:");
-        sliderLabel.setBounds(7, 0, 70, 20);
+        sliderLabel.setBounds(7, 1, 70, 20);
         Utils.setFonts(this.getSliderLabel());
 
         alphSliderLabelComponent = new AlphSliderLabelComponent();
@@ -87,6 +87,7 @@ public class AlphPanelComponent {
     }
 
     private void addBorder(){
+        showAlphPanel.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
         sliderLabel.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
         alphSliderLabelComponent.setBorder(BorderFactory.createLineBorder(Color.PINK));
     }

@@ -8,7 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class HsvPalette_2MouseListener extends MouseAdapter {
-    private DataControl dataControl;
+    private final DataControl dataControl;
 
     public HsvPalette_2MouseListener(MainPanel mainPanel){
         this.dataControl = new DataControlImpl(mainPanel);

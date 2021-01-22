@@ -23,17 +23,15 @@ public class HsvPalette_2DataControlImpl implements HsvPalette_2DataControl {
     /**
      * 获取圆心的位置
      *
-     * @param y
+     * @param y 色调版内的纵坐标
      */
     @Override
     public int getMidOfCircled(int y) {
-        int midOfCircled = y;
-        if(midOfCircled > 6 && midOfCircled < 207) {
-            midOfCircled = y - hsvPalette_2LabelComponent.getCIRCLED_R();
-        }else {
-            midOfCircled = midOfCircled > 201 ? 201 : 0;
-        }
-        return midOfCircled;
+        if(y > 6 && y < 207)
+            return y - hsvPalette_2LabelComponent.getCIRCLED_R();
+        if (y > 201)
+            return 201;
+        return 0;
     }
 
     @Override

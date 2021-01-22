@@ -17,18 +17,19 @@ public class HexDocumentListener implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (Utils.rgbFlag) {
+        if (Utils.flag)
             dataControl.changeRgbaFieldValueByHexFieldValue();
-        }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        dataControl.changeRgbaFieldValueByHexFieldValue();
+        if (Utils.flag)
+            dataControl.changeRgbaFieldValueByHexFieldValue();
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        dataControl.changeRgbaFieldValueByHexFieldValue();
+        if (Utils.flag)
+            dataControl.changeRgbaFieldValueByHexFieldValue();
     }
 }

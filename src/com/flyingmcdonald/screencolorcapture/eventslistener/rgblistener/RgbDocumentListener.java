@@ -17,22 +17,28 @@ public class RgbDocumentListener implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        dataControl.changeHsvFieldValueByRgbchanged();
-        dataControl.setHexFieldValueByRgb();
-        dataControl.showColorInColorLabel();
+        if (Utils.flag) {
+            dataControl.changeHsvFieldValueByRgbchanged();
+            dataControl.setHexFieldValueByRgb();
+            dataControl.showColorInColorLabel();
+        }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        dataControl.changeHsvFieldValueByRgbchanged();
-        dataControl.setHexFieldValueByRgb();
-        dataControl.showColorInColorLabel();
+        if (Utils.flag) {
+            dataControl.changeHsvFieldValueByRgbchanged();
+            dataControl.setHexFieldValueByRgb();
+            dataControl.showColorInColorLabel();
+        }
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        dataControl.changeHsvFieldValueByRgbchanged();
-        dataControl.setHexFieldValueByRgb();
-        dataControl.showColorInColorLabel();
+        if (Utils.flag) {
+            dataControl.changeHsvFieldValueByRgbchanged();
+            dataControl.setHexFieldValueByRgb();
+            dataControl.showColorInColorLabel();
+        }
     }
 }

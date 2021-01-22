@@ -39,14 +39,13 @@ public class RgbDataControlImpl implements RgbDataControl {
 
     @Override
     public void setRGBFieldValue(int[] rgbIntArray, JTextField[] rgbFieldObject) {
-        Utils.rgbFlag = false;
         for (int i = 0; i < rgbFieldObject.length; i++) {
-            if (i == rgbFieldObject.length - 1){
-                Utils.rgbFlag = true;
-            }
             if (!rgbFieldObject[i].getText().equals("" + rgbIntArray[i])) {
+                if (i == rgbFieldObject.length - 1)
+                    Utils.flag = true;
                 rgbFieldObject[i].setText("" + rgbIntArray[i]);
             }
+
         }
     }
 
@@ -70,15 +69,11 @@ public class RgbDataControlImpl implements RgbDataControl {
 
     @Override
     public void setRGBFieldValue(List<Integer> rgbList, JTextField[] rgbFieldObject) {
-        int index = 3;
-        Utils.hexFlag = false;
         int[] rgbIntArray = Utils.StringToInt(getSafeRGBFieldValue());
-        for(int i = 0; i < index; i++){
-            if (i == 2){
-                Utils.hexFlag = true;
-            }
+        for(int i = 0; i < rgbIntArray.length; i++){
             if (rgbIntArray[i] != rgbList.get(i)){
-                System.out.println(i);
+                if(i == rgbIntArray.length - 1)
+                    Utils.flag = true;
                 rgbFieldObject[i].setText("" + rgbList.get(i));
             }
         }

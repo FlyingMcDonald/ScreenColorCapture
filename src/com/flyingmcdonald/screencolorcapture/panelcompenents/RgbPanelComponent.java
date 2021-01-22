@@ -56,14 +56,14 @@ public class RgbPanelComponent {
 
     private void initPanelAndComponent(){
         showRGBPanel = new JPanel();
-        showRGBPanel.setBounds(200, 0, 150, 110);
+        showRGBPanel.setBounds(200, 0, 150, 150);
 
 
         redPanel = new JPanel(null);
         redPanel.setPreferredSize(new Dimension(150, 30));
 
         redLabel = new JLabel("Red:");
-        redLabel.setBounds(6, 5, 38, 20);
+        redLabel.setBounds(0, 5, 38, 20);
         Utils.setFonts(redLabel);
 
         showRedText = new JTextField("255", 4);
@@ -83,7 +83,7 @@ public class RgbPanelComponent {
         bluePanel.setPreferredSize(new Dimension(150, 30));
 
         blueLabel = new JLabel("Blue:");
-        blueLabel.setBounds(5, 5, 40, 20);
+        blueLabel.setBounds(0, 5, 40, 20);
         Utils.setFonts(blueLabel);
 
         showBlueText = new JTextField("255", 4);

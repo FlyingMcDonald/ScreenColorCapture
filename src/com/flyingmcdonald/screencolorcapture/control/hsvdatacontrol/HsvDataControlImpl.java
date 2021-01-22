@@ -19,7 +19,7 @@ public class HsvDataControlImpl implements HsvDataControl {
     /**
      * 获取HSB的JTextField对象数组
      *
-     * @return
+     * @return JTextField[]
      */
     @Override
     public JTextField[] getHsvFieldObject(){
@@ -34,6 +34,8 @@ public class HsvDataControlImpl implements HsvDataControl {
     public void setHsvFieldValue(int[] hsvIntArray, JTextField[] HsvFieldObject) {
         for (int i = 0; i < HsvFieldObject.length; i++) {
             if (!HsvFieldObject[i].getText().equals(""+hsvIntArray[i])) {
+                if (i == HsvFieldObject.length - 1)
+                    Utils.flag = true;
                 HsvFieldObject[i].setText(""+hsvIntArray[i]);
             }
         }
@@ -81,5 +83,6 @@ public class HsvDataControlImpl implements HsvDataControl {
     @Override
     public void setHsvFieldValue(String hsvStr, JTextField fieldObject) {
         fieldObject.setText(hsvStr);
+        Utils.flag = true;
     }
 }

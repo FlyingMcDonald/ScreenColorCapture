@@ -17,20 +17,21 @@ public class HsvDocumentListener implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (Utils.rgbFlag) {
+        if (Utils.flag) {
             dataControl.changeRgbFieldValueByHsvChanged();
         }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if(e.getDocument().getLength() != 0) {
+        if(e.getDocument().getLength() != 0 || Utils.flag) {
             dataControl.changeRgbFieldValueByHsvChanged();
         }
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        dataControl.changeRgbFieldValueByHsvChanged();
+        if (Utils.flag)
+            dataControl.changeRgbFieldValueByHsvChanged();
     }
 }
